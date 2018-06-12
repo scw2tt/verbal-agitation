@@ -93,6 +93,12 @@ def cleanADC(filename):
 
 # converts the list into a wav file
 def listToWav(rawList, filename):
+    """converts a python list of audio time and audio into a wav file
+    
+    Arguments:
+        rawList {[float]} -- 2 column list of time and audio
+        filename {string} -- name of the file to which the wav file will output
+    """
 
     # convert the list into a numpy array
     rawArray = np.asarray(rawList)
@@ -105,6 +111,14 @@ def listToWav(rawList, filename):
 
 # takes a wav file and removes the "clicking" peaks caused by inaccuracies
 def filterWav(filename, n, outfileName):
+    """removes the "clicking" of the original wave file by median filtering
+    
+    Arguments:
+        filename {string} -- input wav file
+        n {int} -- median filter window length
+        outfileName {string} -- the name of the wav file to be created by the function
+    """
+
 
     filteredArray = []
     # convert the wav file back to a numpy array
@@ -124,13 +138,7 @@ def filterWav(filename, n, outfileName):
             #print(windowMed)
     
     # use the remainder to fill in the remaining array to prevent falling out of bounds
-    """
-    lastWindow = roughAudio.size - remainder - 1
-    for i in range(remainder):
-        filteredArray.append(roughAudio[lastWindow + i])
-
-    # convert the list back to the wav format
-    """
+    
     listToWav(filteredArray, outfileName)
 
     return
@@ -138,6 +146,13 @@ def filterWav(filename, n, outfileName):
 
 # takes in a list and makes a wav file out of it
 def filterList(inList, n, outfileName):
+    """converts a list of raw audio data from the ADC and creates a filtered wav file
+    
+    Arguments:
+        inList {[int]} -- audio signal in a python list 
+        n {int} -- length of median window for filtering
+        outfileName {string} -- name of the wav file created by this function
+    """
 
     # convert the list to a dummy wav that will be turned into the file they want to 
     listToWav(inList, "temp.wav")
