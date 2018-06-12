@@ -12,9 +12,6 @@ import matplotlib.pyplot as plt
 MIC_FREQ = 10000
 
 def cleanADC(filename):
-    
-    
-    
     # find out how many lines are in the file
     count = len(open(filename).readlines(  ))
     
