@@ -10,6 +10,8 @@ import sklearn as skl
 from sklearn import neighbors as k
 from sklearn import svm
 from sklearn import cross_validation as cross_v
+from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier as RFC
 import numpy as np
 import pandas as pd
 import scipy as sci
@@ -23,7 +25,7 @@ DIR_AGI = "labData\Agitation"
 DIR_NON_AGI = "labData\NonAgitation"
 
 
-def detectAgi(agiFolder, nonAgiFolder, classifier = "knn"):
+def detectAgi(agiFolder, nonAgiFolder, classifier = "svm"):
     """Coverts the audio features in the text files into a pandas dataframe. Then a
     classifier (either k-nearest neighbor or SVM) will train and test on that data. 
     The score of the algorithm will be printed out.
@@ -35,6 +37,9 @@ def detectAgi(agiFolder, nonAgiFolder, classifier = "knn"):
     Keyword Arguments:
         classifier {str} -- if "knn", then k-nearest neighbor will be used as the classifier, 
                             if not then the support vector machine will be used (default: {"knn"})
+                            "rfc" : Random Forest Classifier
+                            "knn" : k- Nearest Neighbor where k = 5
+                            "tree" : Decision Tree Classifier
     
     Returns:
          X {pandas dataframe} -- the features columns from both folders combined into a pandas dataset
@@ -79,7 +84,11 @@ def detectAgi(agiFolder, nonAgiFolder, classifier = "knn"):
     #----------------------------------------------------------------------------
     # train the model (supervised learning)
     # use either k-nearest neighbors or support vector machine as the model
-    if classifier == "knn":
+    if classifier == "tree":
+        model = tree.DecisionTreeClassifier()
+    elif classifier == "rfc":
+        model = RFC() 
+    elif classifier == "knn":
         model = k.KNeighborsClassifier(n_neighbors = 5)
     else:
         model = svm.LinearSVC()
