@@ -1,20 +1,6 @@
 """
 Sean Wolfe
 Filename: cleanAudio.py
-
-
-CleanADC
-Purpose: reads the text file data into python lists that can be used for analysis 
-Input: filename: the text file that contains all the data readings
-Returns: the following python lists
-time, audioTime, cleanAudio, avgAudio, door1, door2
-    1) time: the time data
-    2) audioTime: the audio time (smoothed inbetween)
-    3) cleanAudio: the normalized ADC readings
-    4) avgAudio: the normalized ADC readings that are averaged over the window size
-    5) door1: the data from the door sensor 1 (top)
-    6) door2: the data from the second door sensor (bottom)
-
 """
 
 import numpy as np
@@ -22,13 +8,13 @@ from scipy.io.wavfile import write as wavWrite
 from scipy.io.wavfile import read as wavRead
 import matplotlib.pyplot as plt
 
-
-
-
 # constants
 MIC_FREQ = 10000
 
 def cleanADC(filename):
+    
+    
+    
     # find out how many lines are in the file
     count = len(open(filename).readlines(  ))
     
@@ -102,7 +88,7 @@ def cleanADC(filename):
 
         # close the file   
         rawADC.close()
-    return audioTime, cleanAudio
+    return audioTime, cleanAudio, avgAudio, time, d1, d2
 
 
 # converts the list into a wav file
@@ -161,33 +147,3 @@ def filterList(inList, n, outfileName):
     
     return
 
-
-
-
-
-# test the functions
-#audioFrame = cleanADC("./labData/labAgitation/rawADC2018-03-12_10-18-39.txt")
-#listToWav(audioFrame, "raw.wav")
-
-# get all of the data
-"""
-time, aTime,audio, meanAudio, s1, s2 = cleanADC("rawADC2018-04-21_12-35-43.txt")
-
-plt.subplot(211)
-#plt.plot(time, meanAudio, time , s1, time , s2)
-plt.plot(time[300:], s1[300:],  label='Door 1') 
-plt.plot(time[300:], s2[300:],  label='Door 2') 
-#plt.plot(aTime, audio, label='Audio')
-plt.legend()
-plt.xlabel('Time (Seconds)')
-plt.ylabel('Sensor Magnitude')
-plt.grid(True)
-plt.title('Door Sensor Radial Vision Test')
-
-plt.subplot(212)
-plt.plot(aTime, audio)
-plt.grid(True)
-plt.show()
-#plt.legend((meanAudio, s1, s2), ('Audio', 'Door Sensor 1', 'Door Sensor 1'))
-#plt.show()
-"""
